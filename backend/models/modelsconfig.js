@@ -14,4 +14,19 @@ Com.belongsTo(Post);
 Post.hasMany(Like);
 Like.belongsTo(Post);
 
-module.exports;
+
+const db =  async ()=>{
+    try {
+      await sequelize.authenticate();
+      console.log('Connection has been established successfully.');
+    }catch (error) {
+      console.error('Unable to connect to the database:', error);
+    }
+    await User.sync();
+    await Post.sync();
+    await Com.sync();
+    await UploadedImage.sync();
+    await Like.sync();
+  };
+
+module.exports = db;
