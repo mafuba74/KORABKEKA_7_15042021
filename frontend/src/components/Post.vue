@@ -11,10 +11,10 @@
         </header>
         <section class="article-author">
             <p>Publié par : {{post.author}} </p>
-            <button class="btn-options" v-if="post.author === user.userName || user.isAdmin" @click.stop.prevent="showOptions"> ...</button>
+            <button class="btn-options" v-if="(post.author === user.userName) || user.isAdmin" @click.stop.prevent="showOptions"> ...</button>
             <ul class="options" v-if="optionDisplayed">
                 <li v-if="post.author === user.userName"> <button class="btn1" @click.stop.prevent="openForm">modifier</button> </li>
-                <li v-if="post.author === user.userName || user.isAdmin"> <button class="btn2" @click.stop.prevent="deletePost">supprimer</button></li>
+                <li v-if="(post.author === user.userName) || user.isAdmin"> <button class="btn2" @click.stop.prevent="deletePost">supprimer</button></li>
             </ul> 
         </section>
         <section class="article__body" >
@@ -141,10 +141,10 @@ export default {
             const payload = {
                 text: this.userComment,
                 postId: this.post.postId,
-                userId: Store.state.user.userId,
-                author: Store.state.user.userName
+                userId: Store.state.user.userId
             }
             if(payload.text.length >=1){
+                console.log(payload)
                 Store.dispatch('sendCom', payload)
                 this.commenting = false
                 this.userComment = ""

@@ -22,7 +22,7 @@ export default new Vuex.Store({
       if(payload.length>0){
         for(let i=0; i < payload.length; i++){
         let post = new Post(payload[i].title, payload[i].article, payload[i].user.name, payload[i].id, payload[i].coms, payload[i].likes, payload[i].uploadedImage)
-        posts.push(post)
+        posts.unshift(post)
         }
         state.posts = posts
         console.log(posts)
@@ -38,7 +38,7 @@ export default new Vuex.Store({
       Router.push({name: 'Forum'})
     },
     USER_UPDATE(state, payload){
-      const updatedUser = new User(state.user.userId, payload, state.user.userId)
+      const updatedUser = new User(state.user.userId, payload, state.user.isAdmin)
       state.user = updatedUser
     },
     DISCONNECT(state){

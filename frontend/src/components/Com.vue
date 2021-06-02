@@ -1,6 +1,6 @@
 <template>
     <div class="com">
-        <div class="com__author">{{com.author}}</div>
+        <div class="com__author">{{com.user.name}}</div>
         <section class="com__body" id="comment">           
             <div class="com__body-text" v-if="!modifyingCom">
                 {{com.text}}
@@ -11,8 +11,8 @@
             </div>
         </section>
         <section id="options">
-            <button v-if="com.author === user.userName" @click.stop.prevent="showForm">modifier</button>
-            <button v-if="com.author === user.userName || user.isAdmin" @click.stop.prevent="deleteCom">supprimer</button>
+            <button v-if="com.user.name === user.userName" @click.stop.prevent="showForm">modifier</button>
+            <button v-if="com.user.name === user.userName || user.isAdmin" @click.stop.prevent="deleteCom">supprimer</button>
         </section>
     </div>
 </template>

@@ -80,10 +80,6 @@ const Com = sequelize.define('com', {
   text: {
     type: DataTypes.TEXT,
     allowNull: false
-  },
-  author: {
-    type: DataTypes.TEXT,
-    allowNull: false
   }
 });
 
@@ -206,9 +202,13 @@ app.put('/users/:id',auth, async(req, res, next)=>{
 //cherche tous les posts
 app.get('/post',auth, async(req, res, next)=>{
   try {
-   const posts = (await Post.findAll({include: [User, Com, Like, UploadedImage]}))
+   const posts = (await Post.findAll({include: [User, {model: Com, include: {model: User}}, Like, UploadedImage]}))
     .map(post => {
       post.user.password = null;
+      post.coms.map(com =>{
+        com.user.password = null;
+        return com
+      })
       return post
     })
     res.status(200).json(posts);
@@ -312,8 +312,7 @@ app.post('/post/:id/comment',auth, async(req, res, next)=>{
   await Com.create({
     text: req.body.text,
     postId: req.params.id,
-    userId: req.body.userId,
-    author: req.body.author
+    userId: req.body.userId
   })
   .then(comment => res.status(201).json(comment))
   .catch(err => res.status(400).json({err}));

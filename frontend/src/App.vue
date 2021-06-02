@@ -2,11 +2,28 @@
   <div id="app">
     <div id="nav">
       <router-link to="/forum"> Forum |</router-link>
-      <router-link to="/profile"> Profile</router-link>     
+      <router-link to="/profile"> Profile</router-link>
+      <button v-if="isLoggedIn" @click.stop.prevent="disconnect">Déconnection</button>     
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+import Store from './store'
+import {mapState} from 'vuex'
+export default {
+  name: 'App',
+  computed:{
+    ...mapState(['isLoggedIn'])
+  },
+  methods: {
+    disconnect(){
+      Store.dispatch('disconnect')
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -66,8 +83,15 @@ table {
 }
 
 #nav {
+  position: relative;
   padding: 30px;
-
+  button{
+    position: absolute;
+    right: 0;
+    border: none;
+    background-color: black;
+    color: white;
+  }
   a {
     font-weight: bold;
     color: #2c3e50;
