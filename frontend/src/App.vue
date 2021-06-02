@@ -74,12 +74,22 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+body {
+  background-image: url("../images/icon.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  min-height: 100%;
+  
 }
 
 #nav {
