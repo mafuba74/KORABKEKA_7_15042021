@@ -113,7 +113,6 @@ const db =  async ()=>{
   await UploadedImage.sync();
   await Like.sync();
 };
-//var db = require('./models/modelsconfig');
 db();
 
 app.use(bodyParser.json());  
