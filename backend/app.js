@@ -189,15 +189,6 @@ app.put('/users/:id',auth, async(req, res, next)=>{
   .catch(err => res.status(400).json({err}));
 });
 
-//suppression d'un User
-/*app.delete('/users/:id', auth, async(req, res, next)=>{
-  await User.destroy({where: {
-    id: req.params.id
-  }})
-  .then(()=> res.status(200).json({message: "Utilisateur supprimé"}))
-  .catch(err=> res.status(400).json({err}));
-});*/
-
 //cherche tous les posts
 app.get('/post',auth, async(req, res, next)=>{
   try {
@@ -215,23 +206,7 @@ app.get('/post',auth, async(req, res, next)=>{
     console.log(error);
     res.status(400).json({ error })
   }
-   // .then(posts => res.status(200).json(posts))
-   // .catch(error =>);
 });
-
-//cherche un post
-/*app.get('/post/:id',auth, async(req, res, next)=>{
-  await Post.findOne({where: {id: req.params.id}})
-      .then(post => res.status(200).json(post))
-      .catch(error => res.status(404).json({ error }));
-});*/
-
-//cherche tous les commentaires d'un post
-/*app.get('/post/:id/comment',auth, async(req, res, next)=>{
-  await Com.findAll({where: {postId : req.params.id}})
-      .then(coms => res.status(200).json(coms))
-      .catch(error => res.status(400).json({ error }));
-});*/
 
 //création d'un post
 app.post('/post', auth, async(req, res, next)=>{
@@ -273,23 +248,6 @@ app.post('/post/:id/image', auth, multer, async(req, res, next)=>{
   .then(() => res.status(201).json({message: 'image ajoutée avec succès'}))
   .catch(error => res.status(400).json({ error }));
 })
-
-//modifie une image uploadée
-/*app.put('/post/:id/image/:uploadedImageId', auth, async(req, res, next)=>{
-  const currentImage = await Image.findOne({
-    where: {
-      id: req.params.imageId
-    }
-  })
-  const fileName = currentImage.imageUrl.split('/images/')[1];
-      fs.unlink(`images/${fileName}`, async()=>{
-        await UploadedImage.update({
-          imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-        },{ where: {id: req.params.uploadedImageId}})
-          .then(() => res.status(200).json({ message: 'image modifiée !'}))
-          .catch(error => res.status(400).json({ error }));
-      });
-})*/
 
 // supprime une image uploadée
 app.delete('/post/:id/image/:uploadedImageId', auth, async(req, res, next)=>{
@@ -341,12 +299,5 @@ app.post('/post/:id/like',auth, async(req, res, next)=>{
   .then(liked => res.status(200).json({message: "ce post a été liké", liked}))
   .catch(err => res.status(400).json({err}));
 });
-
-//const postRoutes = require('./routes/post');
-//const userRoutes = require('./routes/user');
-
-//app.use('/api/sauces', postRoutes);
-//app.use('/api/auth', userRoutes);
-
 
 module.exports = app;
