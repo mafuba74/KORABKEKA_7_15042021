@@ -60,6 +60,9 @@ export default {
             width: 150px;
             height: 50px;
             border-radius: 50px;
+            &:hover{
+                background-color: rgb(187, 184, 184);
+            }
         }
     }
 </style>
