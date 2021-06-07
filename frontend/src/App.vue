@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <header id="header">
+      <h1>GROUPOMANIA SOCIAL NETWORK <i></i></h1> 
+    </header>
     <div id="nav">
       <router-link to="/forum"> Forum |</router-link>
       <router-link to="/profile"> Profile</router-link>
@@ -91,10 +94,16 @@ body {
   min-height: 100%;
   
 }
-
+#header{
+  width: 100%;
+  height: 100px;
+  font-size: 2em;
+  font-weight: bold;
+}
 #nav {
   position: relative;
   padding: 30px;
+  
   button{
     position: absolute;
     right: 0;

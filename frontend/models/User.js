@@ -10,4 +10,7 @@ export class User {
     getName(){
         return this.userName
     }
+    getStatus(){
+        return this.isAdmin
+    }
 }

@@ -32,6 +32,9 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  if(localStorage.getItem('groupomaniasessionuser') !== null){
+    Store.dispatch('checkUser')
+  }
   if (to.name !== 'Auth'  && !Store.state.isLoggedIn) next({ name: 'Auth' })
   else next()
 })

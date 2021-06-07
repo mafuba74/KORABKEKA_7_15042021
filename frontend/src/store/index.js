@@ -33,22 +33,40 @@ export default new Vuex.Store({
     SET_USER(state, payload){
       const currentUser = new User(payload.userId, payload.userName, payload.isAdmin)
       localStorage.setItem('groupomaniasessiontoken', payload.token)
+      localStorage.setItem('groupomaniasessionuser', JSON.stringify(currentUser))
+      console.log(localStorage.getItem('groupomaniasessionuser'))
       state.user = currentUser
       state.isLoggedIn = true
       Router.push({name: 'Forum'})
     },
+    PERSIST_USER(state){
+      console.log(localStorage.getItem('groupomaniasessionuser'))
+      const storageUser = JSON.parse(localStorage.getItem('groupomaniasessionuser'))
+      const persistantUser = new User(storageUser.userId, storageUser.userName, storageUser.isAdmin)
+      state.user = persistantUser
+      state.isLoggedIn = true
+    },
     USER_UPDATE(state, payload){
       const updatedUser = new User(state.user.userId, payload, state.user.isAdmin)
       state.user = updatedUser
+      localStorage.setItem('groupomaniasessionuser', JSON.stringify(updatedUser))
     },
     DISCONNECT(state){
       state.isLoggedIn = false
       state.user = null
-      Router.push({name: 'Auth'})
+      state.posts= null
       localStorage.removeItem('groupomaniasessiontoken')
+      localStorage.removeItem('groupomaniasessionuser')
+      Router.push({name: 'Auth'})   
     }
   },
   actions: {
+    checkUser(){
+      if(localStorage.getItem('groupomaniasessionuser')){
+        this.commit('PERSIST_USER')
+        this.dispatch('fetchPosts')
+      }
+    },
     async sendPostWithImage(context, payload){
       console.log(payload)
       let token = localStorage.getItem('groupomaniasessiontoken')
@@ -257,22 +275,6 @@ export default new Vuex.Store({
       })
       .catch(error => console.log(error))
     },
-    /*async userLogin(context, payload){
-      console.log(payload)
-      await fetch('http://localhost:3000/users/login', {
-        method: 'POST',
-        body: JSON.stringify(payload),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
-      })
-      .then(response => response.text())
-      .then(obj => {
-        let user = JSON.parse(obj)
-        console.log(user)
-        context.commit('SET_USER', user)
-        this.dispatch('fetchPosts')
-      })
-      .catch(error => console.log(error)) 
-    },*/
     async userLogin(context, payload){
       await fetch('http://localhost:3000/users/login', {
         method: 'POST',
